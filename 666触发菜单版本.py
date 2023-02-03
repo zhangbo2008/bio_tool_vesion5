@@ -270,7 +270,7 @@ def setup_button():
 
     print('进行重置按钮')
     print(colorlist,99999999999999999999999999999999999999999)
-    b=tkinter.Button(frame,bg= 'white',text ="标注为空", command = lambda :helloCallBack(colorlist[0]))
+    b=tkinter.Button(frame,bg= 'white',text ="标注为空", command = lambda :helloCallBack('white'))
     b.grid(row=0,column=1,padx=10)
     button_grid_info = b.grid_info()
     # b.grid_forget()
@@ -346,58 +346,69 @@ def fun(i):
 
 
 def save():
-        moshi=cmb.get()
-        print(moshi,3333333333333333333333333333333333333333333333333333)
-        if 'es' in moshi:
-            tool_type='bioes'
-        else:
-            tool_type = 'bio'
-        print("获取文本")
-        result = text.get("1.0", "end")  # 获取文本输入框的内容
+        global text666
+        result=''
+        zhengchagn=0
+        try:
+            moshi=cmb.get()
+            print(moshi,3333333333333333333333333333333333333333333333333333)
+            if 'es' in moshi:
+                tool_type='bioes'
+            else:
+                tool_type = 'bio'
+            print("获取文本")
+            result = text.get("1.0", "end")  # 获取文本输入框的内容
 
 
-        with open('output.txt','w',encoding='utf-8') as f:
-            f.writelines(result)
+            with open('output.txt','w',encoding='utf-8') as f:
+                f.writelines(result)
+        except:
+            text666.set('output.txt写入失败')
 
 
 
 
-
-        for i in colorlist:
-            aaa=text.tag_ranges(i)###=得到的aaa标里面每2个表示开头结尾索引.
-            print(aaa,i)
-        #=======下面都是简单的字符串处理而已
-        yuanwen=result.split('\n')
-        jieguo=[list('O'*len(i)) for i in yuanwen]
-        #=====根据颜色标注即可:
-        for dex,i in enumerate(colorlist):
-            aaa = text.tag_ranges(i)  ###=得到的aaa标里面每2个表示开头结尾索引.
-            for j in range(len(aaa)//2):
-                a11= int(aaa[2*j].string.split('.')[0])#首航
-                a12= int(aaa[2*j].string.split('.')[1])#首列
-                a21= int(aaa[2*j+1].string.split('.')[0])#尾行
-                a22= int(aaa[2*j+1].string.split('.')[1])# 尾列
-                if tool_type!='bio':
-                    if a11!=a21:
-                        print("bugle !!!!","索引在",a11,a12,a21,a22)
-                    else:
-                        if a22-a12==1:#标注S!
-                            jieguo[a11-1][a12]="S-"+str(labellist[dex])
+        try:
+            for i in colorlist:
+                aaa=text.tag_ranges(i)###=得到的aaa标里面每2个表示开头结尾索引.
+                print(aaa,i)
+            #=======下面都是简单的字符串处理而已
+            yuanwen=result.split('\n')
+            jieguo=[list('O'*len(i)) for i in yuanwen]
+            #=====根据颜色标注即可:
+            for dex,i in enumerate(colorlist):
+                aaa = text.tag_ranges(i)  ###=得到的aaa标里面每2个表示开头结尾索引.
+                for j in range(len(aaa)//2):
+                    a11= int(aaa[2*j].string.split('.')[0])#首航
+                    a12= int(aaa[2*j].string.split('.')[1])#首列
+                    a21= int(aaa[2*j+1].string.split('.')[0])#尾行
+                    a22= int(aaa[2*j+1].string.split('.')[1])# 尾列
+                    if tool_type!='bio':
+                        if a11!=a21:
+                            print("bugle !!!!","索引在",a11,a12,a21,a22)
                         else:
-                            jieguo[a11-1][a12:a22]=["B-"+str(labellist[dex])]+["I-"+str(labellist[dex])]*(a22-a12-2)+["E-"+str(labellist[dex])]
-                if tool_type=='bio':
-                    if a11 != a21:
-                        print("bugle !!!!", "索引在", a11, a12, a21, a22)
-                    else:
+                            if a22-a12==1:#标注S!
+                                jieguo[a11-1][a12]="S-"+str(labellist[dex])
+                            else:
+                                jieguo[a11-1][a12:a22]=["B-"+str(labellist[dex])]+["I-"+str(labellist[dex])]*(a22-a12-2)+["E-"+str(labellist[dex])]
+                    if tool_type=='bio':
+                        if a11 != a21:
+                            print("bugle !!!!", "索引在", a11, a12, a21, a22)
+                        else:
 
-                            jieguo[a11 - 1][a12:a22] = ["B-" + str(labellist[dex])] + ["I-" + str(labellist[dex])] * (
-                                        a22 - a12 - 1)
+                                jieguo[a11 - 1][a12:a22] = ["B-" + str(labellist[dex])] + ["I-" + str(labellist[dex])] * (
+                                            a22 - a12 - 1)
 
-        print(jieguo,111111111111111111111111111111111111111111111111111111)
-        jieguo=[' '.join(i)+'\n' for i in jieguo]
-        print(jieguo)
-        with open('output.bio','w') as f:
-            f.writelines(jieguo)
+            print(jieguo,111111111111111111111111111111111111111111111111111111)
+            jieguo=[' '.join(i)+'\n' for i in jieguo]
+            print(jieguo)
+            with open('output.bio','w') as f:
+                f.writelines(jieguo)
+            zhengchagn=1
+        except:
+            text666.set('output.bio写入失败')
+        if zhengchagn:
+            text666.set('bio和txt都写入成功')
 
 
 
@@ -415,79 +426,82 @@ def save():
 
 setup_button()
 def chognzhi():
-
-    #============填入文本.
-    with open('output.txt' ,encoding='utf-8') as f:
-        tmp=f.readlines()
-    text.delete('1.0','end')
-    text.insert('1.0',''.join(tmp))
-
-
-
+    global text666
+    try:
+        #============填入文本.
+        with open('output.txt' ,encoding='utf-8') as f:
+            tmp=f.readlines()
+        text.delete('1.0','end')
+        text.insert('1.0',''.join(tmp))
 
 
 
-    with open('output.bio' ) as f:
-        tmp=f.readlines()
-    tmp3=tmp
-    print(tmp)
-    tmp=' '.join(tmp).replace('\n',' ').split(' ')
-    tmp=[i[2:] for i in tmp if '-' in i]
-    tmp2=[]
-    for i in tmp:
-        if i not in tmp2:
-            tmp2.append(i)
-
-    tmp=tmp2
-    print(tmp,333333333333333333333333333)
-    #=======进行配色.
-
-
-    clis=   ['white',    'red'    ,'yellow','Blue','Cyan','orange','PeachPuff','Gray', 'Brown', 'Tan','Beige']
 
 
 
-#我们的默认标签, 只有当新的跟这里面的不一样时候才做修改.
-    global color_and_biaoqian
-    global colorlist
-    global labellist
+        with open('output.bio' ) as f:
+            tmp=f.readlines()
+        tmp3=tmp
+        print(tmp)
+        tmp=' '.join(tmp).replace('\n',' ').split(' ')
+        tmp=[i[2:] for i in tmp if '-' in i]
+        tmp2=[]
+        for i in tmp:
+            if i not in tmp2:
+                tmp2.append(i)
 
-    # color_and_biaoqian = [
-    #     ['white', '标注为空'],
-    # ['red','person'],
-    # ['yellow','address'],
-    # ['Blue','org'],
-    # ['Cyan','telephone'],
-    # ['orange','time'],
-    # ['PeachPuff', 'nation'],
-    # # ['Gray', 'time3'],
-    # # ['Brown', 'time4'],
-    # # ['Tan', 'time5'],
-    # # ['Beige', 'time6']
-    #
-    # ]
-    for i in range(len(tmp)):
-        if tmp[i] not in labellist:
-            color_and_biaoqian.append([clis[i+1],tmp[i]]) #替换就的按钮.
-    colorlist = [i[0] for i in color_and_biaoqian]
-    labellist = [i[1] for i in color_and_biaoqian]
-    setup_button()
-    #=============下面我们根据bio进行涂色.
-    print(tmp3,44444444444444)
-    tmp3=[i1.replace('\n','').split(' ') for i1 in tmp3]
-    for i in range(len(tmp3)):
-        for j in range(len(tmp3[i])):
-            print(i,j,343423423423423423423423423423)
-            print(i)
-            print(j)
-            print(tmp3[i][j],333333333333333333333333333333333333333333333333)
-            if '-' in tmp3[i][j]:
-                aaa=tmp3[i][j][2:]
-                for jjj in color_and_biaoqian:
-                    if jjj[1]==aaa:
-                        color=jjj[0]
-                        helloCallBack_read_bio(str(i+1)+'.'+str(j),str(i+1)+'.'+str(j+1),color)
+        tmp=tmp2
+        print(tmp,333333333333333333333333333)
+        #=======进行配色.
 
+
+        clis=   ['white',    'red'    ,'yellow','Blue','Cyan','orange','PeachPuff','Gray', 'Brown', 'Tan','Beige']
+
+
+
+    #我们的默认标签, 只有当新的跟这里面的不一样时候才做修改.
+        global color_and_biaoqian
+        global colorlist
+        global labellist
+
+        # color_and_biaoqian = [
+        #     ['white', '标注为空'],
+        # ['red','person'],
+        # ['yellow','address'],
+        # ['Blue','org'],
+        # ['Cyan','telephone'],
+        # ['orange','time'],
+        # ['PeachPuff', 'nation'],
+        # # ['Gray', 'time3'],
+        # # ['Brown', 'time4'],
+        # # ['Tan', 'time5'],
+        # # ['Beige', 'time6']
+        #
+        # ]
+        for i in range(len(tmp)):
+            if tmp[i] not in labellist:
+                color_and_biaoqian.append([clis[i+1],tmp[i]]) #替换就的按钮.
+        colorlist = [i[0] for i in color_and_biaoqian]
+        labellist = [i[1] for i in color_and_biaoqian]
+        setup_button()
+        #=============下面我们根据bio进行涂色.
+        print(tmp3,44444444444444)
+        tmp3=[i1.replace('\n','').split(' ') for i1 in tmp3]
+        for i in range(len(tmp3)):
+            for j in range(len(tmp3[i])):
+                print(i,j,343423423423423423423423423423)
+                print(i)
+                print(j)
+                print(tmp3[i][j],333333333333333333333333333333333333333333333333)
+                if '-' in tmp3[i][j]:
+                    aaa=tmp3[i][j][2:]
+                    for jjj in color_and_biaoqian:
+                        if jjj[1]==aaa:
+                            color=jjj[0]
+                            helloCallBack_read_bio(str(i+1)+'.'+str(j),str(i+1)+'.'+str(j+1),color)
+        text666.set('读取成功')
+    except:
+        text666.set('读取失败')
 
 
 
@@ -533,14 +547,17 @@ cmb.current(0)
 
 
 
+import tkinter as tk
+
+text666 = tk.StringVar()
 
 
 
-
-aaa=tkinter.Label(frame,text='提示:右边文本框写入正则表达式')
+aaa=tkinter.Label(frame,textvariable=text666, bg='yellow')
 aaa.grid(row=2,column=0,padx=10)
 
 
+text666.set("右边输入正则")
 b=tkinter.Button(frame, text ="保存文件为BIO和txt", command = save)
 b.grid(row=1,column=0,padx=10)
 
