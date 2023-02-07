@@ -350,9 +350,12 @@ def fun(i):
 
 
 def save():
+
         global text666
         result=''
         zhengchagn=0
+        savefor_rel={}
+        save_triple=[]
         try:
             moshi=cmb.get()
             # print(moshi,3333333333333333333333333333333333333333333333333333)
@@ -366,6 +369,8 @@ def save():
 
             with open('output.txt','w',encoding='utf-8') as f:
                 f.writelines(result)
+            result=result.replace('\r\n','\n')
+            # result=result.split('\n')
         except:
             text666.set('output.txt写入失败')
 
@@ -373,9 +378,9 @@ def save():
 
 
         try:
-            for i in colorlist:
-                aaa=text.tag_ranges(i)###=得到的aaa标里面每2个表示开头结尾索引.
-                # print(aaa,i)
+            # for i in colorlist:
+            #     aaa=text.tag_ranges(i)###=得到的aaa标里面每2个表示开头结尾索引.
+            #     # print(aaa,i)
             #=======下面都是简单的字符串处理而已
             yuanwen=result.split('\n')
             jieguo=[list('O'*len(i)) for i in yuanwen]
@@ -383,10 +388,29 @@ def save():
             for dex,i in enumerate(colorlist):
                 aaa = text.tag_ranges(i)  ###=得到的aaa标里面每2个表示开头结尾索引.
                 for j in range(len(aaa)//2):
+
+
+
+
                     a11= int(aaa[2*j].string.split('.')[0])#首航
                     a12= int(aaa[2*j].string.split('.')[1])#首列
                     a21= int(aaa[2*j+1].string.split('.')[0])#尾行
                     a22= int(aaa[2*j+1].string.split('.')[1])# 尾列
+
+                    if 1:
+                        # ===============这里来处理每个颜色保存到rel里面.
+                        # (<textindex object: '1.4'>, <textindex object: '1.9'>) =aaa
+                        save_triple.append([yuanwen[a11-1][a12:a22],a11-1,str(labellist[dex]),a12,a22-1])
+                        print(1)
+                        pass
+
+
+
+
+
+
+
+
                     if tool_type!='bio':
                         if a11!=a21:
                             pass
@@ -411,8 +435,59 @@ def save():
             with open('output.bio','w') as f:
                 f.writelines(jieguo)
             zhengchagn=1
+
+
+            #=====================加一个ner整体输出.
+            #=========这个为了后续标注关系时候方便.
+            #输出样式: ner1_text  ner1_label ner1_locationhead  ner1_locationtail ner2_text ner2_label ner2_locationhead ner2tail.....########正文的该行.
+
+            #==================处理:
+            # print(save_triple,999999999999999999999999999999999999999999999999)
+            from collections import defaultdict
+            outfor_rel=defaultdict(list)
+            for i in save_triple:
+
+
+                outfor_rel[i[1]].append([i[0],i[2],str(i[3]),str(i[4])])
+            for i in outfor_rel:
+                outfor_rel[i].append(yuanwen[i])
+            # print(outfor_rel,111111111111111111111111111111111111111111111111111111111111111111111)
+            outlist=['']*len(outfor_rel.keys())
+            sepp='  '
+            for i in sorted(outfor_rel.keys()):
+                for jj in range(len(outfor_rel[i])-1):
+                    outlist[i]+=sepp+sepp.join(outfor_rel[i][jj])
+                outlist[i]+='######'+outfor_rel[i][-1]
+                outlist[i]=outlist[i][len(sepp):]
+            print(outlist,22222222222222222222222222222222222222222222)
+            with open('output.ner','w',encoding='utf-8') as f:
+                f.writelines(outlist)
+            # zhengchagn=1
+
+
+
+
+
+
+
+
+
+
         except:
             text666.set('output.bio写入失败')
+
+
+        if 1:
+            pass
+            # for i in range(len(result)):
+            #
+            #     savefor_rel[i+1]=result[i]
+
+
+
+
+
+
         if zhengchagn:
             text666.set('bio和txt都写入成功')
 
@@ -618,12 +693,12 @@ def reg():
 
 
 
-import base64
+# import base64
 uuid='[[sep]]'
-import flask
-import json
+# import flask
+# import json
 global_fuwenben=[]
-import klembord          #pip 一下.
+# import klembord          #pip 一下.
 waijie=0
 # 参考:https://www.coder.work/article/7769372
 # 2023-02-06,12点36  //加入样式复制功能.
@@ -705,7 +780,7 @@ def fun2(event):
         waijie=1
         pass
     return 'break'  # 这种写法可以阻塞ctrlc 的原始使用.
-import copy
+# import copy
 def fun3(event):
     neirong=klembord.get_text()
     print(neirong,'neirong999999999999')#=
