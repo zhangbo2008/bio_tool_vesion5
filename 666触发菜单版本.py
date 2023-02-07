@@ -17,68 +17,26 @@
 #=========现在的方案是 按照bio里面的直接按照配色表生成.现在支持10个.#==========现在还是自动配色吧. 搞一个配色表存着太麻烦感觉.
 # =======================配置!!!!!!!!!!!!!!!!!!!
 color_and_biaoqian=[
+#============这个网站能看查询所有颜色!!!!!!!http://color.liminba.com/c/ffb6c1/
+    ['#FF6c82','per'],   # 这个就是标准红色. 写red 和#FF0000都行.
+    ['yellow','loc'],
+    ['Blue','time'],
+    ['Cyan','org'],
+    ['orange','law'],
+    ['PeachPuff', 'veh'],
+    ['Gray', 'stg'],
+    # ['Brown', 'time4'],
+    # ['Tan', 'time5'],
+    # ['Beige', 'time6'],
+    # ['Beige', 'time6'],
+    # ['Beige', 'time6'],
+    # ['Beige', 'time6'],
 
-    ['red','person'],
-    ['yellow','address'],
-    ['Blue','org'],
-    ['Cyan','telephone'],
-    ['orange','time'],
-    ['PeachPuff', 'nation'],
-    ['Gray', 'time3'],
-    ['Brown', 'time4'],
-    ['Tan', 'time5'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    ['Beige', 'time6'],
-    # ['Beige', 'time6'],
-    # ['Beige', 'time6'],
-    # ['Beige', 'time6'],
-    # ['Beige', 'time6'],
-    # ['Beige', 'time6'],
 
 ]
+
+#最全的颜色表,如果标签大于上面那个color_and_biaoqian 就会用clis里面的自动.填充.
+clis=   ['white',    'red'    ,'yellow','Blue','Cyan','orange','PeachPuff','Gray', 'Brown', 'Tan','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige','Beige',]
 #=============支持2种模式, 可以先写bioes或者bio
 tool_type='bioes'
 # tool_type='bio'
@@ -98,7 +56,7 @@ import tkinter
 root = Tk(className='                                                                                                                            信息抽取标注工具(一键生成bioes格式)')
 # frame = Frame (root, relief=RAISED, borderwidth=20)
 root.resizable(True,True)
-text = Text(root, width=125,height=20,font=('宋体',15),wrap = 'none')
+text = Text(root, width=125,height=20,font=('宋体',15),wrap = 'word')
 text.insert('1.0', '贴入你要处理的sdfsadf张某,李某,sdfsdfasfasd王某他们杀人了fas]\n sdfsadf张某,李某,sdfsdfasfasd王某他们杀人了文字 中文 English 都行\n贴入你要处理的文字')# 1.0 第一行0列.
 
 colorlist=[i[0] for i in color_and_biaoqian]
@@ -216,7 +174,7 @@ def zhengzehelloCallBack_quanbiaozhu(color):
            print(1111111111111)
            aaa=text.get('1.0',"end")
            print(text.get('1.0',"end"),324234234234324234234234234324234233)
-           tmp=re.findall(a,aaa)
+           tmp=re.findall(a,aaa) ########==========正则代码.
            tmp=set(tmp)
            if 1:
                for i1 in tmp:
@@ -270,9 +228,10 @@ def setup_button():
 
     print('进行重置按钮')
     print(colorlist,99999999999999999999999999999999999999999)
-    b=tkinter.Button(frame,bg= 'white',text ="标注为空", command = lambda :helloCallBack('white'))
-    b.grid(row=0,column=1,padx=10)
-    button_grid_info = b.grid_info()
+    # b=tkinter.Button(frame,bg= 'white',text ="标注为空", command = lambda :helloCallBack('white'))
+    fun4('white')
+    # b.grid(row=0,column=1,padx=10)
+    # button_grid_info = b.grid_info()
     # b.grid_forget()
     if 0: #########2023-02-01,18点46这个地方可以删除国企按钮,其实没啥必要删除.因为你扩充时候可能还需要.扩充时候可以自己改代码19行. 添加自己需要的类别.
         for i in save_all_button:#================这一步用来每次删除过期的按钮.
@@ -306,14 +265,59 @@ def setup_button():
             # menubar.add_command(label=xxx, command=lambda x=xxx:helloCallBack_quanbiaozhu(colorlist[x]))
 
 
+def fun4(i):
+            menubar = tkinter.Menu(frame,tearoff=0)
+
+            def helper1(x=i):
+                x = i
+                return helloCallBack_quanbiaozhu(x)
+            def helper2(x=i):
+                x = i
+                return zhengzehelloCallBack_quanbiaozhu(x)
+            xxx = '全标'
+            menubar.add_command(label=xxx, command=helper1)
+            xxx = '正则'
+            menubar.add_command(label=xxx, command=helper2)
+            # 事件处理函数一定要至少有一个参数，且第一个参数表示的是系统事件
+            def pop(event,a):
+                # 注意使用 event.x 和 event.x_root 的区别
+                # menubar.post(event.x, event.y)
+                # print(a)
+                menubar.post(event.x_root, event.y_root)
+            fffff=('宋体',10,'bold')
+            b=tkinter.Button(frame, bg=i,font=fffff,text ='标注为空', command = lambda x=i: helloCallBack(i))
+            b.bind("<Button-3>", lambda event, a=3: pop(event, a))
+            b.grid(row=0,column=1,padx=paddd)
 
 
+def fun(i):
+            menubar = tkinter.Menu(frame,tearoff=0)
+
+            def helper1(x=i):
+                x = i
+                return helloCallBack_quanbiaozhu(colorlist[x])
+            def helper2(x=i):
+                x = i
+                return zhengzehelloCallBack_quanbiaozhu(colorlist[x])
+            xxx = '全标'
+            menubar.add_command(label=xxx, command=helper1)
+            xxx = '正则'
+            menubar.add_command(label=xxx, command=helper2)
+            # 事件处理函数一定要至少有一个参数，且第一个参数表示的是系统事件
+            def pop(event,a):
+                # 注意使用 event.x 和 event.x_root 的区别
+                # menubar.post(event.x, event.y)
+                # print(a)
+                menubar.post(event.x_root, event.y_root)
+            fffff=('宋体',10,'bold')
+            b=tkinter.Button(frame, bg=colorlist[i],font=fffff,text =labellist[i], command = lambda x=i: helloCallBack(colorlist[x]))
+            b.bind("<Button-3>", lambda event, a=3: pop(event, a))
 
 
 
 
 def fun(i):
-            menubar = tkinter.Menu(frame)
+            menubar = tkinter.Menu(frame,tearoff=0)
 
             def helper1(x=i):
                 x = i
@@ -351,12 +355,12 @@ def save():
         zhengchagn=0
         try:
             moshi=cmb.get()
-            print(moshi,3333333333333333333333333333333333333333333333333333)
+            # print(moshi,3333333333333333333333333333333333333333333333333333)
             if 'es' in moshi:
                 tool_type='bioes'
             else:
                 tool_type = 'bio'
-            print("获取文本")
+            # print("获取文本")
             result = text.get("1.0", "end")  # 获取文本输入框的内容
 
 
@@ -371,7 +375,7 @@ def save():
         try:
             for i in colorlist:
                 aaa=text.tag_ranges(i)###=得到的aaa标里面每2个表示开头结尾索引.
-                print(aaa,i)
+                # print(aaa,i)
             #=======下面都是简单的字符串处理而已
             yuanwen=result.split('\n')
             jieguo=[list('O'*len(i)) for i in yuanwen]
@@ -385,7 +389,8 @@ def save():
                     a22= int(aaa[2*j+1].string.split('.')[1])# 尾列
                     if tool_type!='bio':
                         if a11!=a21:
-                            print("bugle !!!!","索引在",a11,a12,a21,a22)
+                            pass
+                            # print("bugle !!!!","索引在",a11,a12,a21,a22)
                         else:
                             if a22-a12==1:#标注S!
                                 jieguo[a11-1][a12]="S-"+str(labellist[dex])
@@ -393,15 +398,16 @@ def save():
                                 jieguo[a11-1][a12:a22]=["B-"+str(labellist[dex])]+["I-"+str(labellist[dex])]*(a22-a12-2)+["E-"+str(labellist[dex])]
                     if tool_type=='bio':
                         if a11 != a21:
-                            print("bugle !!!!", "索引在", a11, a12, a21, a22)
+                            pass
+                            # print("bugle !!!!", "索引在", a11, a12, a21, a22)
                         else:
 
                                 jieguo[a11 - 1][a12:a22] = ["B-" + str(labellist[dex])] + ["I-" + str(labellist[dex])] * (
                                             a22 - a12 - 1)
 
-            print(jieguo,111111111111111111111111111111111111111111111111111111)
+            # print(jieguo,111111111111111111111111111111111111111111111111111111)
             jieguo=[' '.join(i)+'\n' for i in jieguo]
-            print(jieguo)
+            # print(jieguo)
             with open('output.bio','w') as f:
                 f.writelines(jieguo)
             zhengchagn=1
@@ -442,7 +448,7 @@ def chognzhi():
         with open('output.bio' ) as f:
             tmp=f.readlines()
         tmp3=tmp
-        print(tmp)
+        # print(tmp)
         tmp=' '.join(tmp).replace('\n',' ').split(' ')
         tmp=[i[2:] for i in tmp if '-' in i]
         tmp2=[]
@@ -451,11 +457,11 @@ def chognzhi():
                 tmp2.append(i)
 
         tmp=tmp2
-        print(tmp,333333333333333333333333333)
+        # print(tmp,333333333333333333333333333)
         #=======进行配色.
 
 
-        clis=   ['white',    'red'    ,'yellow','Blue','Cyan','orange','PeachPuff','Gray', 'Brown', 'Tan','Beige']
+
 
 
 
@@ -485,14 +491,14 @@ def chognzhi():
         labellist = [i[1] for i in color_and_biaoqian]
         setup_button()
         #=============下面我们根据bio进行涂色.
-        print(tmp3,44444444444444)
+        # print(tmp3,44444444444444)
         tmp3=[i1.replace('\n','').split(' ') for i1 in tmp3]
         for i in range(len(tmp3)):
             for j in range(len(tmp3[i])):
-                print(i,j,343423423423423423423423423423)
-                print(i)
-                print(j)
-                print(tmp3[i][j],333333333333333333333333333333333333333333333333)
+                # print(i,j,343423423423423423423423423423)
+                # print(i)
+                # print(j)
+                # print(tmp3[i][j],333333333333333333333333333333333333333333333333)
                 if '-' in tmp3[i][j]:
                     aaa=tmp3[i][j][2:]
                     for jjj in color_and_biaoqian:
@@ -578,10 +584,10 @@ b.grid(row=1,column=0,padx=10)
 #
 # text.tag_configure('highlightline', background='yellow', font='TkFixedFont', relief='raised')
 # text.insert('end','ffffffffff','highlightline')
-try:
-    print(text.get(SEL_FIRST,SEL_LAST))
-except:
-    pass
+# try:
+#     print(text.get(SEL_FIRST,SEL_LAST))
+# except:
+#     pass
 
 
 
@@ -601,7 +607,201 @@ e=E1
 #按扭调用的函数，
 def reg():
     a = e.get()
-    print(a,333333333333333333333333333333333333333333333333333333333)
+    # print(a,333333333333333333333333333333333333333333333333333333333)
+
+
+
+
+
+
+
+
+
+
+import base64
+uuid='[[sep]]'
+import flask
+import json
+global_fuwenben=[]
+import klembord          #pip 一下.
+waijie=0
+# 参考:https://www.coder.work/article/7769372
+# 2023-02-06,12点36  //加入样式复制功能.
+def fun2(event):
+
+    #========
+    a= text.index(tk.INSERT)
+    # print(a,'??????????????????')
+
+
+
+    try:
+        txt = text.get('sel.first', 'sel.last')
+
+        content = text.dump('sel.first', 'sel.last', tag=True, text=True)
+
+        global  global_fuwenben
+
+        # content编码.
+
+
+
+
+        global_fuwenben=content
+        html_text = []
+        # print(content,9999999999999999999999999999999999999999)
+        # print(str(content),99999999999999999999999999999)
+        # print(eval(str(content)),9999999999999999999999999999)
+        tmp=eval(str(content))
+
+
+        #我们往content里面加一个自己的id做校验. 因为如果有其他json会发生混淆.
+        content=[uuid]+content
+        tmp=json.dumps(content,ensure_ascii=True)
+        # tmp=tmp.encode('utf-8')
+        tttttttt=json.loads(tmp)
+        # print(tttttttt,'解析后的内丰富的发')
+
+
+        # print(tmp,9999999999999999999999999999999999999999999999999999999999999999999999999999)
+        # print(type(tmp))
+        tmp=str(tmp)
+        klembord.set_text(uuid)#===========剪贴板里面编解码有问题!!!!!!!!!!所以这里面用一个技巧只需要传递信号即可, 只需要对面校验uuid即可.
+        #==========2023-02-06,20点24 目前方案还是用自编码, 不用json, 即使他能用, 也会慢,因为非编辑器数据如果用jsonfy会卡.不如自己做一个头来判断速度快.#但是目前还是jsonfy好实现.先用着.
+
+        # [('tagon', 'sel', '1.0'), ('text', '贴入你要处', '1.0'), ('tagon', 'red', '1.5'), ('text', '理的sdfsadf张某,李某,sdfsdf', '1.5'), ('tagoff', 'red', '1.26'), ('text', 'asf', '1.26'), ('tagon', 'red', '1.29'), ('text', 'asd', '1.29'), ('tagoff', 'red', '1.32'), ('text', '王某他们杀人了fas]', '1.32')]
+        #=整理一下 #编码是 sep  color1  sep text1   sep color2   sep text2
+        # tmp2=[]
+        #
+        # for i in range(len(content)):
+        #     if content[i][0] =='text' and content[i-1][0]!='tagon':
+        #         tmp2.append(sep_for_clipborad)
+        #         tmp2.append('white')
+        #         tmp2.append(sep_for_clipborad)
+        #         tmp2.append(content[i][1])
+        #     if content[i][1]=='tagon':
+        #         tmp2.append(sep_for_clipborad)
+        #         tmp2.append(content[i][1])
+        #     if content[i][0] =='text' and content[i-1][0]=='tagon':
+        #         tmp2.append(sep_for_clipborad)
+        #         tmp2.append(content[i][1])
+        # print(tmp2,12341230947239047238947238947329847234234)
+        # klembord.set_text(''.join(tmp2))
+
+
+
+
+
+
+
+        #     print(content)
+        # 下面我们获取sel.first到sel.last的样式.
+        # print(txt)
+        # print(event)
+        # print(11111111111111)
+    except:
+        #这是说明从外面来的数据.
+        global waijie
+        waijie=1
+        pass
+    return 'break'  # 这种写法可以阻塞ctrlc 的原始使用.
+import copy
+def fun3(event):
+    neirong=klembord.get_text()
+    print(neirong,'neirong999999999999')#=
+    global global_fuwenben
+    #=========判断一下当前是否有选中.
+    try:
+        text.delete('sel.first', 'sel.last')
+    except:
+        pass
+    a= text.index(tk.INSERT)
+    # neirong=klembord.get_with_rich_text()
+    # tmp=json.loads(neirong)
+    # print(tmp,'tttttttttttttttmmmmmmmmmmmmmmppppppppppppppppp')
+#============原来我发现粘贴板贴过来的内容会多一个字符........还是空白字符................神奇???????????????????
+    neirong2=neirong[:len(uuid)]
+    # print(uuid,'uuid')
+    # print(neirong2.replace(' ','')==uuid,'校验!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    # neirong=str(neirong).encode('utf-8')
+
+    try:
+      if neirong2!=uuid:
+          raise
+      if neirong2==uuid:
+
+
+        global_fuwenben2 = copy.deepcopy(global_fuwenben)
+        for i in range(len(global_fuwenben)):
+            if global_fuwenben[i][0] == 'tagon' and global_fuwenben[i][1] in colorlist:
+                global_fuwenben2[i], global_fuwenben2[i + 1] = global_fuwenben2[i + 1], global_fuwenben2[i]
+        global_fuwenben = global_fuwenben2
+        print('debug!!!!!!!!!!!!', global_fuwenben)
+        a2 = a
+
+
+        #=============================这个涂色逻辑是错误的!!!!!!!!!!
+        for i in global_fuwenben:
+
+            if i[0] == 'text':
+                a = a2
+                # print(a,'mmmmmmmmmmmmmmmmmmmm')
+                text.insert(a, i[1])
+                # print(len(i[1].replace('\n', '')), '文本偏移量!!!!!!!!')
+                hang, lie = [int(i) for i in (a.split('.'))]
+                hang += i[1].count('\n')
+                if '\n' in i[1]:
+                    lie = 0
+                else:
+                    lie += len(i[1].replace('\n', ''))
+                a2 = str(hang) + '.' + str(lie)
+            if 1:
+
+                if i[1] in colorlist and i[0] == 'tagon' or i[0]=='tagoff':  # tuse ==========================注意content标签里面的设置情况, 有的时候你的选择部分on 和off 会不全, 所以我们要2种情况都进行涂色. 虽然会重复凸,但是会保证结果正确!!!!!!!!!
+                    # print('接手333333', i)
+                    color = i[1]
+                    # print('涂色', color, a, a2)
+                    text.tag_config(color, background=color)  # 再为标签进行设置==类似html里面的div 里面class属性.
+                    # ===============注意要先删除其他的标签.
+                    for i in colorlist:
+                        text.tag_remove(i, a, a2)  # =======变色
+                    if color != 'white':  # ======white实际上是不进行背景色标注!这样效果最好!!!!!!a trick
+
+                        text.tag_add(color, a, a2)  # =======变色
+
+    except:
+
+        # print('...................',content)
+        text.insert(a, neirong)
+    print('当前剪贴板内容',klembord.get_text())
+    return  'break'     # 这种写法可以阻塞ctrlv 的原始使用.
+    #     pass  #如果解析失败说明他是其他数据不是编辑器里面的json.
+
+    # global global_fuwenben
+
+    # print(waijie,'外接吗??????????????')
+    # print(global_fuwenben)
+
+
+    # print(a,'??????????????????')#光标位置.
+
+    #======== 直接插入就行.因为光标已经有了.
+
+
+    #=========根据global_fuwenben这个进行插入和涂色.
+    # print('接收到的文本是',global_fuwenben)
+# [('tagon', 'sel', '1.0'), ('text', '贴入你要处', '1.0'), ('tagon', 'red', '1.5'), ('text', '理的sdfsadf张某,李某,sdfsdf', '1.5'), ('tagoff', 'red', '1.26'), ('text', 'asf', '1.26'), ('tagon', 'red', '1.29'), ('text', 'asd', '1.29'), ('tagoff', 'red', '1.32'), ('text', '王某他们杀人了fas]', '1.32')]
+    #=========颜色和text顺序需要交换.
+
+
+
+
+
+
+
+    # colorlist
+
+    # text.insert(a,'ffffffffffffff')
 
 
 
@@ -613,6 +813,28 @@ def reg():
 
 
 
+
+    #==========根据global_fuwenben来在光标位置插入内容即可.
+
+
+
+    # print(22222222222222)
+    #==========下面我们实现我们的ctrl v
+
+
+
+
+
+
+#我已经知道怎么做了, 这种带格式的复制,但是效率不够.所以先不写了.!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+if 0:#============带格式的复制还没做好.先不开了.===========明白了还是应该往剪贴板里面写.才能跟原始功能通用.
+    text.bind('<Control-c>', fun2)
+    text.bind('<Control-v>', fun3) # 拦截ctrlv把
+
+sep_for_clipborad='================[[[sep]]]=====================' #创建一个复杂字符,一般数据会有这个东西.来区分普通数据和编辑器的数据.
+#ceshi
+if 0:
+    klembord.set_with_rich_text('plain text', '<i>plain text</i>')
 
 
 

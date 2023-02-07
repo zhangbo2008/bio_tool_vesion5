@@ -1,8 +1,8 @@
 import tkinter as tk
 
-fon1=("宋", "24")
+fon1=("宋", "16")
 
-
+#===========2023-02-06,10点17  今天目标读懂这份888.py 代码.
 
 
 class TextLineNumbers(tk.Canvas):
@@ -67,11 +67,11 @@ class Example(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
         self.text = CustomText(self,font=fon1)
-        self.vsb = tk.Scrollbar(self, orient="vertical", command=self.text.yview)
+        self.vsb = tk.Scrollbar(self, orient="vertical", command=self.text.yview)#竖直方向的滑动杆.
         self.text.configure(yscrollcommand=self.vsb.set)
         self.text.tag_configure("bigfont", font=("Helvetica", "34", "bold"))
-        self.linenumbers = TextLineNumbers(self, width=30)
-        self.linenumbers.attach(self.text)
+        self.linenumbers = TextLineNumbers(self, width=30)#创建行号工具
+        self.linenumbers.attach(self.text) # 绑定行号工具到text空间.
 
         self.vsb.pack(side="right", fill="y")
         self.linenumbers.pack(side="left", fill="y")
